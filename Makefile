@@ -3,8 +3,6 @@
 # Example:
 # export KERNEL_SRC=/opt/kernel/linux
 
-KERNEL_SRC=/opt/kernel/build
-
 TARGET = raspbiecdrv
 
 all: checkvars raspbiec raspbiecdrv
@@ -44,7 +42,7 @@ raspbiecdrv:
 endif
 
 clean:
-	rm -rf *.o *.ko *~ core .depend *.mod.c .*.cmd .tmp_versions .*.o.d
+	rm -rf *.o *.ko *~ core .depend *.mod.c .*.cmd .tmp_versions .*.o.d raspbiec
 
 depend .depend dep:
 	$(CC) $(CFLAGS) -M *.c > .depend
