@@ -1,33 +1,28 @@
-# This Makefile assumes that you have a Raspberry Pi cross-compiling environment
-# and the variables KERNEL_SRC and CCPREFIX are set.
+# This Makefile assumes that you have kernel header files for your current kernel version installed.
 #
 # Example:
-# export KERNEL_SRC=/home/nn/pikernel/linux
-# export CCPREFIX=/home/nn/pikernel/tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/bin/arm-bcm2708hardfp-linux-gnueabi-
+# export KERNEL_SRC=/opt/kernel/linux
 
 TARGET = raspbiecdrv
 
 all: checkvars raspbiec raspbiecdrv
 
 checkvars:
-ifeq ($(strip $(CCPREFIX)),)
-	$(error CCPREFIX not set (path prefix to cross-compiler binaries))
-endif
 ifeq ($(strip $(KERNEL_SRC)),)
 	$(error KERNEL_SRC not set (path to kernel source))
 endif
 
 raspbiec: raspbiec.o raspbiec_device.o raspbiec_utils.o
-	${CCPREFIX}g++ $^ -o $@
+	g++ $^ -o $@
 
 raspbiec.o: raspbiec.cpp raspbiec.h raspbiec_device.h raspbiec_utils.h raspbiec_common.h
-	${CCPREFIX}g++ -c $<
+	g++ -c $<
 
 raspbiec_device.o: raspbiec_device.cpp raspbiec_device.h raspbiec_utils.h raspbiec_common.h
-	${CCPREFIX}g++ -c $<
+	g++ -c $<
 
 raspbiec_utils.o: raspbiec_utils.cpp raspbiec_utils.h raspbiec_common.h
-	${CCPREFIX}g++ -c $<
+	g++ -c $<
 
 ifneq ($(KERNELRELEASE),)
 # call from kernel build system
@@ -42,7 +37,7 @@ KERNELDIR ?= ${KERNEL_SRC}
 PWD       := $(shell pwd)
 
 raspbiecdrv:
-	$(MAKE)  ARCH=arm CROSS_COMPILE=${CCPREFIX} -C $(KERNELDIR) SUBDIRS=$(PWD) modules
+	$(MAKE)  -C $(KERNELDIR) SUBDIRS=$(PWD) modules
 
 endif
 

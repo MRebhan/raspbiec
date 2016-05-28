@@ -47,6 +47,8 @@
 #include <linux/hrtimer.h>
 #include <linux/delay.h>
 #include <linux/sched.h>
+#include <linux/platform_device.h>
+#include <mach/platform.h>
 #include "raspbiecdrv.h"
 
 /* Module information */
