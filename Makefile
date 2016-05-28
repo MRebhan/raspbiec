@@ -3,6 +3,8 @@
 # Example:
 # export KERNEL_SRC=/opt/kernel/linux
 
+KERNEL_SRC=/opt/kernel/build
+
 TARGET = raspbiecdrv
 
 all: checkvars raspbiec raspbiecdrv
@@ -13,16 +15,16 @@ ifeq ($(strip $(KERNEL_SRC)),)
 endif
 
 raspbiec: raspbiec.o raspbiec_device.o raspbiec_utils.o
-	g++ $^ -o $@
+	g++ -Wall $^ -o $@
 
 raspbiec.o: raspbiec.cpp raspbiec.h raspbiec_device.h raspbiec_utils.h raspbiec_common.h
-	g++ -c $<
+	g++ -Wall -c $<
 
 raspbiec_device.o: raspbiec_device.cpp raspbiec_device.h raspbiec_utils.h raspbiec_common.h
-	g++ -c $<
+	g++ -Wall -c $<
 
 raspbiec_utils.o: raspbiec_utils.cpp raspbiec_utils.h raspbiec_common.h
-	g++ -c $<
+	g++ -Wall -c $<
 
 ifneq ($(KERNELRELEASE),)
 # call from kernel build system
